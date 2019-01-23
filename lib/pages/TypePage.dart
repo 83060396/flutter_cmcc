@@ -85,7 +85,7 @@ class _TypePageState extends State<TypePage> {
           Container(
             alignment: Alignment.center,
             width: 90.0,
-            height: 51.0,
+            height: 50.0,
             color: Colors.white,
             child: Text(typeList[mIndex].iconName,
                 style:
@@ -94,8 +94,8 @@ class _TypePageState extends State<TypePage> {
           ),
           Container(
             color: Colors.blue,
-            width: 4.0,
-            height: 51.0,
+            width: 5.0,
+            height: 50.0,
           ),
         ],
       );
