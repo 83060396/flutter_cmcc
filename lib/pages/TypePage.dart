@@ -88,11 +88,12 @@ class _TypePageState extends State<TypePage> {
             height: 51.0,
             color: Colors.white,
             child: Text(typeList[mIndex].iconName,
-                style: TextStyle(color: Colors.red),
+                style:
+                    TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center),
           ),
           Container(
-            color: Colors.red,
+            color: Colors.blue,
             width: 4.0,
             height: 51.0,
           ),
