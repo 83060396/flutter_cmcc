@@ -211,7 +211,7 @@ class _SplashPageState extends State<SplashPage> {
             offstage: !(_status == 2),
             child: ObjectUtil.isEmpty(_bannerList)
                 ? new Container()
-                : new Swiper(
+                : new MySwiper(
                     autoStart: false,
                     circular: false,
                     indicator: CircleSwiperIndicator(

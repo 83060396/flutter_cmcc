@@ -18,7 +18,7 @@ dependencies:
   dio: ^1.0.12  #网络框架
   # https://github.com/a14n/dart-decimal
   decimal: ^0.3.2
-
+  flutter_swiper: ^1.1.4  # 轮播图
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2

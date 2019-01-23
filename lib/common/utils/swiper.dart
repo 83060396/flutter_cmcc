@@ -1,18 +1,18 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 
-
-/// A controller for [Swiper].
+/// A controller for [MySwiper].
 ///
-/// A page controller lets you manipulate which page is visible in a [Swiper].
+/// A page controller lets you manipulate which page is visible in a [MySwiper].
 /// In addition to being able to control the pixel offset of the content inside
-/// the [Swiper], a [SwiperController] also lets you control the offset in terms
+/// the [MySwiper], a [SwiperController] also lets you control the offset in terms
 /// of pages, which are increments of the viewport size.
 
 class SwiperController extends ChangeNotifier {
   SwiperController({this.initialPage = 0});
 
-  /// The page to show when first creating the [Swiper].
+  /// The page to show when first creating the [MySwiper].
   final int initialPage;
 
   /// Current page index
@@ -24,12 +24,11 @@ class SwiperController extends ChangeNotifier {
   /// Scroll offset
   double get offset => _state._pageController.offset;
 
+  _MySwiperState _swiperState;
 
-  _SwiperState _swiperState;
-
-  _SwiperState get _state {
-    assert(_SwiperState !=
-        null, "SwiperController cannot be accessed before a Swiper is built with it");
+  _MySwiperState get _state {
+    assert(_MySwiperState != null,
+        "SwiperController cannot be accessed before a Swiper is built with it");
     return _swiperState;
   }
 
@@ -39,46 +38,44 @@ class SwiperController extends ChangeNotifier {
   /// Stop switching
   void stop() => _state.stop();
 
-
-  /// Animates the controlled [Swiper] to the given page
+  /// Animates the controlled [MySwiper] to the given page
   ///
   /// The animation lasts for the given duration and follows the given curve.
   /// The returned [Future] resolves when the animation completes.
   ///
   /// The `duration` and `curve` arguments must not be null.
-  Future<Null> animateToPage(int page, {
+  Future<Null> animateToPage(
+    int page, {
     @required Duration duration,
     @required Curve curve,
   }) {
     _state.animateToPage(page, duration: duration, curve: curve);
   }
 
-  /// Animates the controlled [Swiper] to the next page.
+  /// Animates the controlled [MySwiper] to the next page.
   ///
   /// The animation lasts for the given duration and follows the given curve.
   /// The returned [Future] resolves when the animation completes.
   ///
   /// The `duration` and `curve` arguments must not be null.
-  Future<Null> nextPage(
-      { @required Duration duration, @required Curve curve }) {
+  Future<Null> nextPage({@required Duration duration, @required Curve curve}) {
     animateToPage(index + 1, duration: duration, curve: curve);
   }
 
-  /// Animates the controlled [Swiper] to the previous page.
+  /// Animates the controlled [MySwiper] to the previous page.
   ///
   /// The animation lasts for the given duration and follows the given curve.
   /// The returned [Future] resolves when the animation completes.
   ///
   /// The `duration` and `curve` arguments must not be null.
   Future<Null> previousPage(
-      { @required Duration duration, @required Curve curve }) {
+      {@required Duration duration, @required Curve curve}) {
     animateToPage(index - 1, duration: duration, curve: curve);
   }
 
-  void _attach(_SwiperState state) => _swiperState = state;
+  void _attach(_MySwiperState state) => _swiperState = state;
 
   void _detach() => _swiperState = null;
-
 }
 
 /// Swiper indicator builder interface. If you want to custom indicator,
@@ -102,14 +99,13 @@ class RectangleSwiperIndicator extends _SwiperIndicator {
     double itemHeight = 2.0,
     Color itemColor = Colors.white70,
     Color itemActiveColor,
-  }) :super(
-      spacing: spacing,
-      itemColor: itemColor,
-      itemWidth: itemWidth,
-      itemHeight: itemHeight,
-      itemActiveColor: itemActiveColor,
-      itemShape: BoxShape.rectangle
-  );
+  }) : super(
+            spacing: spacing,
+            itemColor: itemColor,
+            itemWidth: itemWidth,
+            itemHeight: itemHeight,
+            itemActiveColor: itemActiveColor,
+            itemShape: BoxShape.rectangle);
 }
 
 /// Circular style indicator
@@ -120,17 +116,15 @@ class CircleSwiperIndicator extends _SwiperIndicator {
     double radius = 3.5,
     Color itemColor = Colors.white70,
     Color itemActiveColor,
-  }) :super(
-      padding: padding,
-      spacing: spacing,
-      itemColor: itemColor,
-      itemWidth: radius * 2,
-      itemHeight: radius * 2,
-      itemActiveColor: itemActiveColor,
-      itemShape: BoxShape.circle
-  );
+  }) : super(
+            padding: padding,
+            spacing: spacing,
+            itemColor: itemColor,
+            itemWidth: radius * 2,
+            itemHeight: radius * 2,
+            itemActiveColor: itemActiveColor,
+            itemShape: BoxShape.circle);
 }
-
 
 class _SwiperIndicator implements SwiperIndicator {
   _SwiperIndicator({
@@ -171,27 +165,20 @@ class _SwiperIndicator implements SwiperIndicator {
           children: List.generate(itemCount, (_index) {
             Color color = itemColor;
             if (_index == index) {
-              color = itemActiveColor ?? Theme
-                  .of(context)
-                  .accentColor;
+              color = itemActiveColor ?? Theme.of(context).accentColor;
             }
             return Container(
               width: itemWidth,
               height: itemHeight,
-              decoration: BoxDecoration(
-                  color: color,
-                  shape: itemShape
-              ),
+              decoration: BoxDecoration(color: color, shape: itemShape),
             );
           }),
-        )
-    );
+        ));
   }
 }
 
-
-class Swiper extends StatefulWidget {
-  Swiper({
+class MySwiper extends StatefulWidget {
+  MySwiper({
     Key key,
     this.direction = Axis.horizontal,
     this.autoStart = true,
@@ -203,8 +190,7 @@ class Swiper extends StatefulWidget {
     this.reverse = false,
     this.indicatorAlignment = AlignmentDirectional.bottomCenter,
     @required this.children,
-  })
-      :childCount=children.length,
+  })  : childCount = children.length,
         super(key: key) {
     assert(childCount > 0);
     if (circular && children.length > 1) {
@@ -216,7 +202,7 @@ class Swiper extends StatefulWidget {
   }
 
   // PageView
-  Swiper.builder({
+  MySwiper.builder({
     Key key,
     this.direction = Axis.horizontal,
     @required this.childCount,
@@ -229,11 +215,9 @@ class Swiper extends StatefulWidget {
     this.circular = false,
     this.reverse = false,
     this.indicatorAlignment = AlignmentDirectional.bottomCenter,
-  })
-      : children=null,
-        _itemCount =childCount + ((circular && childCount > 1) ? 2 : 0),
+  })  : children = null,
+        _itemCount = childCount + ((circular && childCount > 1) ? 2 : 0),
         super(key: key);
-
 
   /// The axis along which the swiper scrolls.
   ///
@@ -293,12 +277,11 @@ class Swiper extends StatefulWidget {
   int _itemCount;
 
   @override
-  _SwiperState createState() => new _SwiperState();
+  _MySwiperState createState() => new _MySwiperState();
 }
 
-class _SwiperState extends State<Swiper>
-    with SingleTickerProviderStateMixin<Swiper> {
-
+class _MySwiperState extends State<MySwiper>
+    with SingleTickerProviderStateMixin<MySwiper> {
   PageController _pageController;
   int _index = 0;
   int _current = 0;
@@ -314,7 +297,7 @@ class _SwiperState extends State<Swiper>
   }
 
   @override
-  void didUpdateWidget(Swiper oldWidget) {
+  void didUpdateWidget(MySwiper oldWidget) {
     _stopped = !widget.autoStart;
     if (oldWidget.childCount != widget.childCount ||
         oldWidget.circular != widget.circular) {
@@ -350,8 +333,10 @@ class _SwiperState extends State<Swiper>
       if (current - _pageController.page > .001) {
         return;
       }
-      if (_current != current) { //onPageChange
-        if (!_animating) { //手动滑动时调整
+      if (_current != current) {
+        //onPageChange
+        if (!_animating) {
+          //手动滑动时调整
           _current = current;
           if (_circular) {
             _index = _adjustPage(current);
@@ -368,14 +353,14 @@ class _SwiperState extends State<Swiper>
     _timer = Timer.periodic(widget.interval ?? Duration(seconds: 3), (timer) {
       //换页前更新_index
       _index = ++_index % widget._itemCount;
-      animateToPage(
-          _circular ? _index - 1 : _index,
+      animateToPage(_circular ? _index - 1 : _index,
           duration: Duration(milliseconds: widget.speed),
           curve: Curves.easeOut);
     });
   }
 
-  Future<Null> animateToPage(int page, {
+  Future<Null> animateToPage(
+    int page, {
     @required Duration duration,
     @required Curve curve,
   }) {
@@ -392,7 +377,8 @@ class _SwiperState extends State<Swiper>
     });
     var completer = Completer<Null>();
     _animating = true;
-    _pageController.animateToPage(page, duration: duration, curve: curve)
+    _pageController
+        .animateToPage(page, duration: duration, curve: curve)
         .then((e) {
       _animating = false;
       if (_circular) {
@@ -446,7 +432,7 @@ class _SwiperState extends State<Swiper>
 
   @override
   Widget build(BuildContext context) {
-    var children=<Widget>[];
+    var children = <Widget>[];
     if (widget.itemBuilder == null) {
       children.add(PageView(
         key: ValueKey(_pageController.initialPage),
@@ -467,13 +453,10 @@ class _SwiperState extends State<Swiper>
         itemBuilder: widget.itemBuilder,
       ));
     }
-    if(widget.indicator!=null){
+    if (widget.indicator != null) {
       children.add(Positioned(
-        child: widget.indicator.build(
-            context,
-            _getRealIndex(),
-            widget.childCount
-        ),
+        child:
+            widget.indicator.build(context, _getRealIndex(), widget.childCount),
       ));
     }
 
@@ -481,14 +464,6 @@ class _SwiperState extends State<Swiper>
         onPointerDown: (event) => _timer?.cancel(),
         onPointerCancel: (event) => _start(),
         onPointerUp: (event) => _start(),
-        child: Stack(
-          alignment:
-          widget.indicatorAlignment,
-          children:children
-        )
-    );
+        child: Stack(alignment: widget.indicatorAlignment, children: children));
   }
 }
-
-
-
