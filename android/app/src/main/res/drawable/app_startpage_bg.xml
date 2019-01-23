@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@mipmap/app_start_page">
+        <bitmap
+            android:id="@+id/bitmap_splash"
+            android:src="@mipmap/app_start_page" />
+    </item>
+    <item
+        android:width="@dimen/x384"
+        android:height="@dimen/y426"
+        android:gravity="center_horizontal"
+        android:top="@dimen/y330">
+        <bitmap
+            android:gravity="top"
+            android:src="@mipmap/app_startpage_shu" />
+    </item>
+    <item
+        android:width="@dimen/x190"
+        android:height="@dimen/y100"
+        android:bottom="@dimen/y56"
+        android:gravity="bottom|center_horizontal">
+        <bitmap
+            android:gravity="bottom"
+            android:src="@mipmap/app_startpage_wenzi" />
+    </item>
+</layer-list>
