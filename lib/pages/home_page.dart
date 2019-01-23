@@ -1,6 +1,5 @@
 import 'package:cmcc/common/utils/navigator_util.dart';
 import 'package:cmcc/pages/CommonHtml5Page.dart';
-import 'package:cmcc/widget/TitleBar.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -8,17 +7,13 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Text(
-          "西安",
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 20.0),
+        leading: Center(
+          child: Text(
+            "西安",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 20.0),
+          ),
         ),
-        title: TitleBar(
-          "西安",
-          needRightLocalIcon: true,
-          onPressed: () {},
-        ),
-        centerTitle: true,
         actions: <Widget>[
           new IconButton(
               icon: new Icon(Icons.search),
