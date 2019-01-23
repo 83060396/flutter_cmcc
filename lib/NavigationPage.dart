@@ -1,5 +1,5 @@
-import 'package:cmcc/pages/home_page.dart';
-import 'package:cmcc/pages/know_ledge_page.dart';
+import 'package:cmcc/pages/HomePage.dart';
+import 'package:cmcc/pages/TypePage.dart';
 import 'package:cmcc/pages/personal_page.dart';
 import 'package:cmcc/pages/project_page.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +49,7 @@ class NavigationState extends State<NavigationPage>
     ];
     _pageList = [
       HomePage(),
-      KnowledgePage(),
+      TypePage(),
       ProjectPage(),
       PersonalPage(),
       ProjectPage(),
