@@ -1,4 +1,6 @@
 import 'package:cmcc/common/utils/navigator_util.dart';
+import 'package:cmcc/common/utils/screen.dart';
+import 'package:cmcc/common/utils/sq_color.dart';
 import 'package:cmcc/models/IconResBean.dart';
 import 'package:cmcc/pages/BannerWidget.dart';
 import 'package:cmcc/pages/CommonHtml5Page.dart';
@@ -9,11 +11,31 @@ class HomePage extends StatefulWidget {
 }
 
 List<IconResBean> iconList;
+double navAlpha = 0;
+ScrollController scrollController = ScrollController();
 
 class HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    scrollController.addListener(() {
+      var offset = scrollController.offset;
+      if (offset < 0) {
+        if (navAlpha != 0) {
+          setState(() {
+            navAlpha = 0;
+          });
+        }
+      } else if (offset < 50) {
+        setState(() {
+          navAlpha = 1 - (50 - offset) / 50;
+        });
+      } else if (navAlpha != 1) {
+        setState(() {
+          navAlpha = 1;
+        });
+      }
+    });
     iconList = List();
     iconList
       ..add(IconResBean("充值交费",
@@ -77,22 +99,134 @@ class HomePageState extends State<HomePage> {
     );
   }
 
+  Future<void> fetchData() async {}
+
   Widget _content(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
-            width: MediaQuery.of(context).size.width,
-            height: 200,
-            child: bannerView,
-          ),
-          _getGridView(),
-          getJoinServer(),
-          getJoinServer1(),
-          getJoinServer2(),
-        ],
+    return Stack(
+      children: <Widget>[
+        RefreshIndicator(
+            backgroundColor: SQColor.blue,
+            onRefresh: fetchData,
+            child: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              controller: scrollController,
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                    width: MediaQuery.of(context).size.width,
+                    height: 200,
+                    child: bannerView,
+                  ),
+                  _getGridView(),
+                  getJoinServer(),
+                  getJoinServer1(),
+                  getJoinServer2(),
+                ],
+              ),
+            )),
+        buildNavigationBar(),
+      ],
+    );
+  }
+
+  Widget buildActions(Color iconColor) {
+    return Row(children: <Widget>[
+      Container(
+        width: 44,
+        child: Image.asset('images/actionbar_checkin.png', color: iconColor),
       ),
+      Container(
+        width: 44,
+        child: Image.asset('images/actionbar_search.png', color: iconColor),
+      ),
+      SizedBox(width: 15)
+    ]);
+  }
+
+  Widget buildLeftActions(Color iconColor) {
+    return Container(
+      height: Screen.navigationBarHeight,
+      padding: EdgeInsets.fromLTRB(15, 25, 0, 0),
+      child: Row(children: <Widget>[
+        Container(
+          width: 32,
+          child: Text(
+            "西安",
+            style: TextStyle(color: SQColor.white, fontSize: 16),
+          ),
+        ),
+        Container(
+          width: 15,
+          child: Image.asset("images/common_white_arrow_down.png"),
+        ),
+        SizedBox(width: 190),
+        Container(
+          width: 33,
+          padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+          child: Image.asset(
+            'images/menu_icon_serch.png',
+            color: iconColor,
+          ),
+        ),
+        Container(
+          width: 30,
+          padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+          child: Image.asset(
+            'images/menu_icon_sweep.png',
+            color: iconColor,
+          ),
+        ),
+        Container(
+          width: 40,
+          padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+          child: Image.asset(
+            'images/title_menu_message.png',
+          ),
+        ),
+      ]),
+    );
+  }
+
+  Widget buildNavigationBar() {
+    return Stack(
+      children: <Widget>[
+        Positioned(
+          left: 0,
+          child: Container(
+            child: buildLeftActions(SQColor.white),
+          ),
+        ),
+//        Positioned(
+//          right: 0,
+//          child: Container(
+//            child: buildActions(SQColor.white),
+//          ),
+//        ),
+        Opacity(
+          opacity: navAlpha,
+          child: Container(
+            color: SQColor.blue,
+            child: Row(
+              children: <Widget>[
+                buildLeftActions(SQColor.white),
+//                Expanded(
+//                  child: Text(
+//                    '首页',
+//                    style: TextStyle(
+//                        background: Paint(),
+//                        fontSize: 17,
+//                        fontWeight: FontWeight.bold,
+//                        color: SQColor.white),
+//                    textAlign: TextAlign.center,
+//                  ),
+//                ),
+//                buildActions(SQColor.white),
+              ],
+            ),
+          ),
+        )
+      ],
     );
   }
 
